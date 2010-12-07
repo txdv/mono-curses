@@ -2707,7 +2707,7 @@ namespace Mono.Terminal {
 				if (Iteration != null)
 					Iteration (null, EventArgs.Empty);
 				
-				if (ch == -1) {
+				if ((ch == -1) || (ch == Curses.KeyResize)) {
 					if (Curses.CheckWinChange ()) {
 						EmptyContainer.Clear ();
 						foreach (Container c in toplevels)
