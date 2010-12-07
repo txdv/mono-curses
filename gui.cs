@@ -236,9 +236,9 @@ namespace Mono.Terminal {
 		/// </remarks>
 		public void Clear ()
 		{
-			for (int line = 0; line < Height; line++){
+			for (int line = 0; line < Height; line++) {
 				BaseMove (y + line, x);
-				for (int col = 0; col < Width; col++){
+				for (int col = 0; col < Width; col++) {
 					Curses.addch (' ');
 				}
 			}
@@ -261,9 +261,9 @@ namespace Mono.Terminal {
 		/// </remarks>
 		public virtual void Redraw ()
 		{
-			for (int line = 0; line < Height; line++){
+			for (int line = 0; line < Height; line++) {
 				Move (y + line, x);
-				for (int col = 0; col < Width; col++){
+				for (int col = 0; col < Width; col++) {
 					Curses.addch ('x');
 				}
 			}
@@ -428,8 +428,8 @@ namespace Mono.Terminal {
 		static public void DrawHotString (string s, int hotcolor, int color)
 		{
 			Curses.attrset (color);
-			foreach (char c in s){
-				if (c == '_'){
+			foreach (char c in s) {
+				if (c == '_') {
 					Curses.attrset (hotcolor);
 					continue;
 				}
@@ -454,10 +454,10 @@ namespace Mono.Terminal {
 				Curses.addch (Curses.ACS_HLINE);
 			Curses.addch (Curses.ACS_URCORNER);
 			
-			for (b = 1; b < height-1; b++){
+			for (b = 1; b < height-1; b++) {
 				Curses.move (line+b, col);
 				Curses.addch (Curses.ACS_VLINE);
-				if (fill){
+				if (fill) {
 					for (int x = 1; x < width-1; x++)
 						Curses.addch (' ');
 				} else
@@ -584,7 +584,7 @@ namespace Mono.Terminal {
 				w = Container.Width - Container.Border * 2 - x;
 			
 			this.Width = w;
-			if (s.Length > w){
+			if (s.Length > w) {
 				if (w < 5)
 					text = s.Substring (0, w);
 				else {
@@ -706,10 +706,10 @@ namespace Mono.Terminal {
 			Curses.attrset (Color);
 			Move (y, x);
 			
-			for (int i = 0; i < Width; i++){
+			for (int i = 0; i < Width; i++) {
 				int p = first + i;
 
-				if (p < text.Length){
+				if (p < text.Length) {
 					Curses.addch (Secret ? '*' : text [p]);
 				} else
 					Curses.addch (' ' );
@@ -735,7 +735,7 @@ namespace Mono.Terminal {
 		
 		public override bool ProcessKey (int key)
 		{
-			switch (key){
+			switch (key) {
 			case 127:
 			case Curses.KeyBackspace:
 				if (point == 0)
@@ -754,7 +754,7 @@ namespace Mono.Terminal {
 
 			case Curses.KeyLeft:
 			case 2: // Control-b, back character
-				if (point > 0){
+				if (point > 0) {
 					point--;
 					Adjust ();
 				}
@@ -790,7 +790,7 @@ namespace Mono.Terminal {
 				if (kill == null)
 					return true;
 				
-				if (point == text.Length){
+				if (point == text.Length) {
 					SetText (text + kill);
 					point = text.Length;
 				} else {
@@ -819,7 +819,7 @@ namespace Mono.Terminal {
 				if (key < 32 || key > 255)
 					return false;
 				
-				if (point == text.Length){
+				if (point == text.Length) {
 					SetText (text + (char) key);
 				} else {
 					SetText (text.Substring (0, point) + (char) key + text.Substring (point));
@@ -837,17 +837,17 @@ namespace Mono.Terminal {
 				return -1;
 
 			int i = p;
-			if (Char.IsPunctuation (text [p]) || Char.IsWhiteSpace (text[p])){
-				for (; i < text.Length; i++){
+			if (Char.IsPunctuation (text [p]) || Char.IsWhiteSpace (text[p])) {
+				for (; i < text.Length; i++) {
 					if (Char.IsLetterOrDigit (text [i]))
 					    break;
 				}
-				for (; i < text.Length; i++){
+				for (; i < text.Length; i++) {
 					if (!Char.IsLetterOrDigit (text [i]))
 					    break;
 				}
 			} else {
-				for (; i < text.Length; i++){
+				for (; i < text.Length; i++) {
 					if (!Char.IsLetterOrDigit (text [i]))
 					    break;
 				}
@@ -866,17 +866,17 @@ namespace Mono.Terminal {
 			if (i == 0)
 				return 0;
 			
-			if (Char.IsPunctuation (text [i]) || Char.IsSymbol (text [i]) || Char.IsWhiteSpace (text[i])){
-				for (; i >= 0; i--){
+			if (Char.IsPunctuation (text [i]) || Char.IsSymbol (text [i]) || Char.IsWhiteSpace (text[i])) {
+				for (; i >= 0; i--) {
 					if (Char.IsLetterOrDigit (text [i]))
 						break;
 				}
-				for (; i >= 0; i--){
+				for (; i >= 0; i--) {
 					if (!Char.IsLetterOrDigit (text[i]))
 						break;
 				}
 			} else {
-				for (; i >= 0; i--){
+				for (; i >= 0; i--) {
 					if (!Char.IsLetterOrDigit (text [i]))
 						break;
 				}
@@ -983,8 +983,8 @@ namespace Mono.Terminal {
 				hot_pos = -1;
 				hot_key = (char) 0;
 				int i = 0;
-				foreach (char c in shown_text){
-					if (Char.IsUpper (c)){
+				foreach (char c in shown_text) {
+					if (Char.IsUpper (c)) {
 						hot_key = c;
 						hot_pos = i;
 						break;
@@ -1018,7 +1018,7 @@ namespace Mono.Terminal {
 			Move (y, x);
 			Curses.addstr (shown_text);
 
-			if (hot_pos != -1){
+			if (hot_pos != -1) {
 				Move (y, x + hot_pos);
 				Curses.attrset (HasFocus ? ColorHotFocus : ColorHotNormal);
 				Curses.addch (hot_key);
@@ -1033,8 +1033,8 @@ namespace Mono.Terminal {
 		public override bool ProcessHotKey (int key)
 		{
 			int k = Curses.IsAlt (key);
-			if (k != 0){
-				if (Char.ToUpper ((char)k) == hot_key){
+			if (k != 0) {
+				if (Char.ToUpper ((char)k) == hot_key) {
 					Container.SetFocus (this);
 					if (Clicked != null)
 						Clicked (this, EventArgs.Empty);
@@ -1048,7 +1048,7 @@ namespace Mono.Terminal {
 
 		public override bool ProcessColdKey (int key)
 		{
-			if (is_default && key == '\n'){
+			if (is_default && key == '\n') {
 				if (Clicked != null)
 					Clicked (this, EventArgs.Empty);
 				return true;
@@ -1059,7 +1059,7 @@ namespace Mono.Terminal {
 
 		public override bool ProcessKey (int c)
 		{
-			if (c == '\n' || c == ' ' || Char.ToUpper ((char)c) == hot_key){
+			if (c == '\n' || c == ' ' || Char.ToUpper ((char)c) == hot_key) {
 				if (Clicked != null)
 					Clicked (this, EventArgs.Empty);
 				return true;
@@ -1069,7 +1069,7 @@ namespace Mono.Terminal {
 
 		public override void ProcessMouse (Curses.MouseEvent ev)
 		{
-			if ((ev.ButtonState & Curses.Event.Button1Clicked) != 0){
+			if ((ev.ButtonState & Curses.Event.Button1Clicked) != 0) {
 				Container.SetFocus (this);
 				Container.Redraw ();
 				if (Clicked != null)
@@ -1140,8 +1140,8 @@ namespace Mono.Terminal {
 				int i = 0;
 				hot_pos = -1;
 				hot_key = (char) 0;
-				foreach (char c in text){
-					if (Char.IsUpper (c)){
+				foreach (char c in text) {
+					if (Char.IsUpper (c)) {
 						hot_key = c;
 						hot_pos = i;
 						break;
@@ -1159,7 +1159,7 @@ namespace Mono.Terminal {
 			Curses.attrset (HasFocus ? ColorFocus : ColorNormal);
 			Move (y, x + 3);
 			Curses.addstr (Text);
-			if (hot_pos != -1){
+			if (hot_pos != -1) {
 				Move (y, x + 3 + hot_pos);
 				Curses.attrset (HasFocus ? ColorHotFocus : ColorHotNormal);
 				Curses.addch (hot_key);
@@ -1174,7 +1174,7 @@ namespace Mono.Terminal {
 
 		public override bool ProcessKey (int c)
 		{
-			if (c == ' '){
+			if (c == ' ') {
 				Checked = !Checked;
 
 				if (Toggled != null)
@@ -1188,7 +1188,7 @@ namespace Mono.Terminal {
 
 		public override void ProcessMouse (Curses.MouseEvent ev)
 		{
-			if ((ev.ButtonState & Curses.Event.Button1Clicked) != 0){
+			if ((ev.ButtonState & Curses.Event.Button1Clicked) != 0) {
 				Container.SetFocus (this);
 				Container.Redraw ();
 
@@ -1298,15 +1298,15 @@ namespace Mono.Terminal {
 		/// </remarks>
 		public void ProviderChanged ()
 		{
-			if (provider.Items != items){
+			if (provider.Items != items) {
 				items = provider.Items;
-				if (top > items){
+				if (top > items) {
 					if (items > 1)
 						top = items-1;
 					else
 						top = 0;
 				}
-				if (selected > items){
+				if (selected > items) {
 					if (items > 1)
 						selected = items - 1;
 					else
@@ -1325,10 +1325,10 @@ namespace Mono.Terminal {
 		{
 			int n;
 
-			switch (c){
+			switch (c) {
 			case 16: // Control-p
 			case Curses.KeyUp:
-				if (selected > 0){
+				if (selected > 0) {
 					selected--;
 					if (selected < top)
 						top = selected;
@@ -1340,9 +1340,9 @@ namespace Mono.Terminal {
 
 			case 14: // Control-n
 			case Curses.KeyDown:
-				if (selected+1 < items){
+				if (selected+1 < items) {
 					selected++;
-					if (selected >= top + Height){
+					if (selected >= top + Height) {
 						top++;
 					}
 					SelectedChanged ();
@@ -1356,7 +1356,7 @@ namespace Mono.Terminal {
 				n = (selected + Height);
 				if (n > items)
 					n = items-1;
-				if (n != selected){
+				if (n != selected) {
 					selected = n;
 					if (items >= Height)
 						top = selected;
@@ -1371,7 +1371,7 @@ namespace Mono.Terminal {
 				n = (selected - Height);
 				if (n < 0)
 					n = 0;
-				if (n != selected){
+				if (n != selected) {
 					selected = n;
 					top = selected;
 					SelectedChanged ();
@@ -1391,11 +1391,11 @@ namespace Mono.Terminal {
 
 		public override void Redraw ()
 		{
-			for (int l = 0; l < Height; l++){
+			for (int l = 0; l < Height; l++) {
 				Move (y + l, x);
 				int item = l + top;
 
-				if (item >= items){
+				if (item >= items) {
 					Curses.attrset (ColorNormal);
 					for (int c = 0; c < Width; c++)
 						Curses.addch (' ');
@@ -1404,7 +1404,7 @@ namespace Mono.Terminal {
 
 				bool marked = allow_mark ? provider.IsMarked (item) : false;
 
-				if (item == selected){
+				if (item == selected) {
 					if (marked)
 						Curses.attrset (ColorHotNormal);
 					else
@@ -1517,7 +1517,7 @@ namespace Mono.Terminal {
 		/// </remarks>
 		public void RedrawChildren ()
 		{
-			foreach (Widget w in widgets){
+			foreach (Widget w in widgets) {
 				// Poor man's clipping.
 				if (w.x >= this.Width - Border * 2)
 					continue;
@@ -1579,8 +1579,8 @@ namespace Mono.Terminal {
 		/// </summary>
 		public void FocusFirst ()
 		{
-			foreach (Widget w in widgets){
-				if (w.CanFocus){
+			foreach (Widget w in widgets) {
+				if (w.CanFocus) {
 					SetFocus (w);
 					return;
 				}
@@ -1592,11 +1592,11 @@ namespace Mono.Terminal {
 		/// </summary>
 		public void FocusLast ()
 		{
-			for (int i = widgets.Count; i > 0; ){
+			for (int i = widgets.Count; i > 0; ) {
 				i--;
 
 				Widget w = (Widget) widgets [i];
-				if (w.CanFocus){
+				if (w.CanFocus) {
 					SetFocus (w);
 					return;
 				}
@@ -1610,36 +1610,36 @@ namespace Mono.Terminal {
 		/// </remarks>
 		public bool FocusPrev ()
 		{
-			if (focused == null){
+			if (focused == null) {
 				FocusLast ();
 				return true;
 			}
 			int focused_idx = -1;
-			for (int i = widgets.Count; i > 0; ){
+			for (int i = widgets.Count; i > 0; ) {
 				i--;
 				Widget w = (Widget)widgets [i];
 
-				if (w.HasFocus){
+				if (w.HasFocus) {
 					Container c = w as Container;
-					if (c != null){
+					if (c != null) {
 						if (c.FocusPrev ())
 							return true;
 					}
 					focused_idx = i;
 					continue;
 				}
-				if (w.CanFocus && focused_idx != -1){
+				if (w.CanFocus && focused_idx != -1) {
 					focused.HasFocus = false;
 
 					Container c = w as Container;
-					if (c != null && c.CanFocus){
+					if (c != null && c.CanFocus) {
 						c.FocusLast ();
 					} 
 					SetFocus (w);
 					return true;
 				}
 			}
-			if (focused != null){
+			if (focused != null) {
 				focused.HasFocus = false;
 				focused = null;
 			}
@@ -1653,36 +1653,36 @@ namespace Mono.Terminal {
 		/// </remarks>
 		public bool FocusNext ()
 		{
-			if (focused == null){
+			if (focused == null) {
 				FocusFirst ();
 				return focused != null;
 			}
 			int n = widgets.Count;
 			int focused_idx = -1;
-			for (int i = 0; i < n; i++){
+			for (int i = 0; i < n; i++) {
 				Widget w = (Widget)widgets [i];
 
-				if (w.HasFocus){
+				if (w.HasFocus) {
 					Container c = w as Container;
-					if (c != null){
+					if (c != null) {
 						if (c.FocusNext ())
 							return true;
 					}
 					focused_idx = i;
 					continue;
 				}
-				if (w.CanFocus && focused_idx != -1){
+				if (w.CanFocus && focused_idx != -1) {
 					focused.HasFocus = false;
 
 					Container c = w as Container;
-					if (c != null && c.CanFocus){
+					if (c != null && c.CanFocus) {
 						c.FocusFirst ();
 					} 
 					SetFocus (w);
 					return true;
 				}
 			}
-			if (focused != null){
+			if (focused != null) {
 				focused.HasFocus = false;
 				focused = null;
 			}
@@ -1763,7 +1763,7 @@ namespace Mono.Terminal {
 
 		public override bool ProcessKey (int key)
 		{
-			if (focused != null){
+			if (focused != null) {
 				if (focused.ProcessKey (key))
 					return true;
 			}
@@ -1776,7 +1776,7 @@ namespace Mono.Terminal {
 				if (focused.ProcessHotKey (key))
 					return true;
 			
-			foreach (Widget w in widgets){
+			foreach (Widget w in widgets) {
 				if (w == focused)
 					continue;
 				
@@ -1792,7 +1792,7 @@ namespace Mono.Terminal {
 				if (focused.ProcessColdKey (key))
 					return true;
 			
-			foreach (Widget w in widgets){
+			foreach (Widget w in widgets) {
 				if (w == focused)
 					continue;
 				
@@ -1810,7 +1810,7 @@ namespace Mono.Terminal {
 			ev.X -= x;
 			ev.Y -= y;
 			
-			foreach (Widget w in widgets){
+			foreach (Widget w in widgets) {
 				int wx = w.x + bx;
 				int wy = w.y + by;
 
@@ -1832,10 +1832,10 @@ namespace Mono.Terminal {
 		
 		public override void DoSizeChanged ()
 		{
-			foreach (Widget widget in widgets){
+			foreach (Widget widget in widgets) {
 				widget.DoSizeChanged ();
 
-				if ((widget.Fill & Fill.Horizontal) != 0){
+				if ((widget.Fill & Fill.Horizontal) != 0) {
 					widget.Width = Width - (Border*2) - widget.x;
 				}
 
@@ -1916,7 +1916,7 @@ namespace Mono.Terminal {
 			Curses.move (y, x + 1);
 			if (HasFocus)
 				Curses.attrset (Application.ColorDialogNormal);
-			if (Title != null){
+			if (Title != null) {
 				Curses.addch (' ');
 				Curses.addstr (Title);
 				Curses.addch (' ');
@@ -1989,7 +1989,7 @@ namespace Mono.Terminal {
 			
 			int p = (Width - button_len) / 2;
 			
-			foreach (Button b in buttons){
+			foreach (Button b in buttons) {
 				b.x = p;
 				b.y = Height - 5;
 
@@ -2041,7 +2041,7 @@ namespace Mono.Terminal {
 
 		public override bool ProcessKey (int key)
 		{
-			if (key == 27){
+			if (key == 27) {
 				Running = false;
 				return true;
 			}
@@ -2066,7 +2066,7 @@ namespace Mono.Terminal {
 			var d = new Dialog (width, height, title);
 			int clicked = -1, count = 0;
 			
-			foreach (var s in buttons){
+			foreach (var s in buttons) {
 				int n = count++;
 				var b = new Button (s);
 				b.Clicked += delegate {
@@ -2075,7 +2075,7 @@ namespace Mono.Terminal {
 				};
 				d.AddButton (b);
 			}
-			if (message != null){
+			if (message != null) {
 				var l = new Label ((width - 4 - message.Length)/2, 0, message);
 				d.Add (l);
 			}
@@ -2153,7 +2153,7 @@ namespace Mono.Terminal {
 			if (menu.Children == null)
 				return;
 
-			foreach (var m in menu.Children){
+			foreach (var m in menu.Children) {
 				if (m == null)
 					continue;
 				
@@ -2162,7 +2162,7 @@ namespace Mono.Terminal {
 			}
 			max += 4;
 			DrawFrame (col + x, line, max, menu.Children.Length + 2, true);
-			for (int i = 0; i < menu.Children.Length; i++){
+			for (int i = 0; i < menu.Children.Length; i++) {
 				var item = menu.Children [i];
 
 				Move (line + 1 + i, col + 1);
@@ -2194,9 +2194,9 @@ namespace Mono.Terminal {
 
 			Move (y, 1);
 			int pos = 0;
-			for (int i = 0; i < Menus.Length; i++){
+			for (int i = 0; i < Menus.Length; i++) {
 				var menu = Menus [i];
-				if (i == selected){
+				if (i == selected) {
 					DrawMenu (i, pos, y+1);
 					Curses.attrset (Application.ColorMenuSelected);
 				} else
@@ -2220,8 +2220,8 @@ namespace Mono.Terminal {
 		public override void PositionCursor ()
 		{
 			int pos = 0;
-			for (int i = 0; i < Menus.Length; i++){
-				if (i == selected){
+			for (int i = 0; i < Menus.Length; i++) {
+				if (i == selected) {
 					pos++;
 					Move (y, pos);
 					return;
@@ -2240,7 +2240,7 @@ namespace Mono.Terminal {
 		
 		public override bool ProcessKey (int key)
 		{
-			switch (key){
+			switch (key) {
 			case Curses.KeyUp:
 				if (Menus [selected].Children == null)
 					return false;
@@ -2291,16 +2291,16 @@ namespace Mono.Terminal {
 				break;
 
 			default:
-				if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') || (key >= '0' && key <= '9')){
+				if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') || (key >= '0' && key <= '9')) {
 					char c = Char.ToUpper ((char)key);
 
 					if (Menus [selected].Children == null)
 						return false;
 					
-					foreach (var mi in Menus [selected].Children){
+					foreach (var mi in Menus [selected].Children) {
 						int p = mi.Title.IndexOf ('_');
-						if (p != -1 && p+1 < mi.Title.Length){
-							if (mi.Title [p+1] == c){
+						if (p != -1 && p+1 < mi.Title.Length) {
+							if (mi.Title [p+1] == c) {
 								Selected (mi);
 								return true;
 							}
@@ -2468,7 +2468,7 @@ namespace Mono.Terminal {
 
 			try {
 				main_window = Curses.initscr ();
-			} catch (Exception e){
+			} catch (Exception e) {
 				Console.WriteLine ("Curses failed to initialize, the exception is: " + e);
 				throw new Exception ("Application.Init failed");
 			}
@@ -2487,7 +2487,7 @@ namespace Mono.Terminal {
 			
 			Curses.start_color ();
 			Curses.use_default_colors ();
-			if (UsingColor){
+			if (UsingColor) {
 				ColorNormal = MakeColor (Curses.COLOR_WHITE, Curses.COLOR_BLUE);
 				ColorFocus = MakeColor (Curses.COLOR_BLACK, Curses.COLOR_CYAN);
 				ColorHotNormal = Curses.A_BOLD | MakeColor (Curses.COLOR_YELLOW, Curses.COLOR_BLUE);
@@ -2570,8 +2570,8 @@ namespace Mono.Terminal {
 			int last = 0;
 			int max_w = 0;
 			string x;
-			for (int i = 0; i < t.Length; i++){
-				if (t [i] == '\n'){
+			for (int i = 0; i < t.Length; i++) {
+				if (t [i] == '\n') {
 					x = t.Substring (last, i-last);
 					lines.Add (x);
 					last = i + 1;
@@ -2665,7 +2665,7 @@ namespace Mono.Terminal {
 			Container last = null;
 
 			Curses.redrawwin (main_window.Handle);
-			foreach (Container c in toplevels){
+			foreach (Container c in toplevels) {
 				c.Redraw ();
 				last = c;
 			}
@@ -2701,14 +2701,14 @@ namespace Mono.Terminal {
 			int ch;
 			Curses.timeout (Timeout);
 
-			for (container.Running = true; container.Running; ){
+			for (container.Running = true; container.Running; ) {
 				ch = Curses.getch ();
 
 				if (Iteration != null)
 					Iteration (null, EventArgs.Empty);
 				
-				if (ch == -1){
-					if (Curses.CheckWinChange ()){
+				if (ch == -1) {
+					if (Curses.CheckWinChange ()) {
 						EmptyContainer.Clear ();
 						foreach (Container c in toplevels)
 							c.SizeChanged ();
@@ -2717,7 +2717,7 @@ namespace Mono.Terminal {
 					continue;
 				}
 				
-				if (ch == Curses.KeyMouse){
+				if (ch == Curses.KeyMouse) {
 					Curses.MouseEvent ev;
 					
 					Curses.console_sharp_getmouse (out ev);
@@ -2725,7 +2725,7 @@ namespace Mono.Terminal {
 					continue;
 				}
 				
-				if (ch == 27){
+				if (ch == 27) {
 					Curses.timeout (100);
 					int k = Curses.getch ();
 					if (k != Curses.ERR && k != 27)
@@ -2747,7 +2747,7 @@ namespace Mono.Terminal {
 					break;
 
 				// Control-z, suspend execution, then repaint.
-				if (ch == 26){
+				if (ch == 26) {
 					Curses.console_sharp_sendsigtstp ();
 					Window.Standard.redrawwin ();
 					Curses.refresh ();
@@ -2756,11 +2756,11 @@ namespace Mono.Terminal {
 				//
 				// Focus handling
 				//
-				if (ch == 9 || ch == Curses.KeyDown || ch == Curses.KeyRight){
+				if (ch == 9 || ch == Curses.KeyDown || ch == Curses.KeyRight) {
 					if (!container.FocusNext ())
 						container.FocusNext ();
 					continue;
-				} else if (ch == Curses.KeyUp || ch == Curses.KeyLeft){
+				} else if (ch == Curses.KeyUp || ch == Curses.KeyLeft) {
 					if (!container.FocusPrev ())
 						container.FocusPrev ();
 					continue;
