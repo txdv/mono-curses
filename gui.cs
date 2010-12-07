@@ -59,12 +59,12 @@ namespace Mono.Terminal {
 		/// <summary>
 		///    The x position of this widget
 		/// </summary>
-		public int x;
+		public int X { get; set; }
 
 		/// <summary>
 		///    The y position of this widget
 		/// </summary>
-		public int y;
+		public int Y { get; set; }
 
 		/// <summary>
 		///    The width of this widget, it is the area that receives mouse events and that must be repainted.
@@ -127,8 +127,8 @@ namespace Mono.Terminal {
 		/// </remarks>
 		public Widget (int x, int y, int w, int h)
 		{
-			this.x = x;
-			this.y = y;
+			this.X = x;
+			this.Y = y;
 			this.Width  = w;
 			this.Height = h;
 			Container = Application.EmptyContainer;
@@ -237,7 +237,7 @@ namespace Mono.Terminal {
 		public void Clear ()
 		{
 			for (int line = 0; line < Height; line++) {
-				BaseMove (y + line, x);
+				BaseMove (Y + line, X);
 				for (int col = 0; col < Width; col++) {
 					Curses.addch (' ');
 				}
@@ -262,7 +262,7 @@ namespace Mono.Terminal {
 		public virtual void Redraw ()
 		{
 			for (int line = 0; line < Height; line++) {
-				Move (y + line, x);
+				Move (Y + line, X);
 				for (int col = 0; col < Width; col++) {
 					Curses.addch ('x');
 				}
@@ -388,7 +388,7 @@ namespace Mono.Terminal {
 		/// </remarks>
 		public virtual void PositionCursor ()
 		{
-			Move (y, x);
+			Move (Y, X);
 		}
 
 		/// <summary>
@@ -532,7 +532,7 @@ namespace Mono.Terminal {
 			else
 				Curses.attrset (ColorNormal);
 
-			Move (y, x);
+			Move (Y, X);
 			Curses.addstr (text);
 		}
 
@@ -546,7 +546,7 @@ namespace Mono.Terminal {
 			}
 			set {
 				Curses.attrset (ColorNormal);
-				Move (y, x);
+				Move (Y, X);
 				for (int i = 0; i < text.Length; i++)
 					Curses.addch (' ');
 				text = value;
@@ -581,7 +581,7 @@ namespace Mono.Terminal {
 		void SetString (int w, string s)
 		{
 			if ((Fill & Fill.Horizontal) != 0)
-				w = Container.Width - Container.Border * 2 - x;
+				w = Container.Width - Container.Border * 2 - X;
 			
 			this.Width = w;
 			if (s.Length > w) {
@@ -698,13 +698,13 @@ namespace Mono.Terminal {
 		/// </summary>
 		public override void PositionCursor ()
 		{
-			Move (y, x+point-first);
+			Move (Y, X+point-first);
 		}
 		
 		public override void Redraw ()
 		{
 			Curses.attrset (Color);
-			Move (y, x);
+			Move (Y, X);
 			
 			for (int i = 0; i < Width; i++) {
 				int p = first + i;
@@ -898,7 +898,7 @@ namespace Mono.Terminal {
 			Container.SetFocus (this);
 
 			// We could also set the cursor position.
-			point = first + (ev.X - x);
+			point = first + (ev.X - X);
 			if (point > text.Length)
 				point = text.Length;
 			if (point < first)
@@ -1015,11 +1015,11 @@ namespace Mono.Terminal {
 		public override void Redraw ()
 		{
 			Curses.attrset (HasFocus ? ColorFocus : ColorNormal);
-			Move (y, x);
+			Move (Y, X);
 			Curses.addstr (shown_text);
 
 			if (hot_pos != -1) {
-				Move (y, x + hot_pos);
+				Move (Y, X + hot_pos);
 				Curses.attrset (HasFocus ? ColorHotFocus : ColorHotNormal);
 				Curses.addch (hot_key);
 			}
@@ -1027,7 +1027,7 @@ namespace Mono.Terminal {
 
 		public override void PositionCursor ()
 		{
-			Move (y, x + hot_pos);
+			Move (Y, X + hot_pos);
 		}
 
 		public override bool ProcessHotKey (int key)
@@ -1154,13 +1154,13 @@ namespace Mono.Terminal {
 		public override void Redraw ()
 		{
 			Curses.attrset (ColorNormal);
-			Move (y, x);
+			Move (Y, X);
 			Curses.addstr (Checked ? "[X] " : "[ ] ");
 			Curses.attrset (HasFocus ? ColorFocus : ColorNormal);
-			Move (y, x + 3);
+			Move (Y, X + 3);
 			Curses.addstr (Text);
 			if (hot_pos != -1) {
-				Move (y, x + 3 + hot_pos);
+				Move (Y, X + 3 + hot_pos);
 				Curses.attrset (HasFocus ? ColorHotFocus : ColorHotNormal);
 				Curses.addch (hot_key);
 			}
@@ -1169,7 +1169,7 @@ namespace Mono.Terminal {
 
 		public override void PositionCursor ()
 		{
-			Move (y, x + 1);
+			Move (Y, X + 1);
 		}
 
 		public override bool ProcessKey (int c)
@@ -1386,13 +1386,13 @@ namespace Mono.Terminal {
 
 		public override void PositionCursor ()
 		{
-			Move (y + (selected-top), x);
+			Move (Y + (selected-top), X);
 		}
 
 		public override void Redraw ()
 		{
 			for (int l = 0; l < Height; l++) {
-				Move (y + l, x);
+				Move (Y + l, X);
 				int item = l + top;
 
 				if (item >= items) {
@@ -1415,7 +1415,7 @@ namespace Mono.Terminal {
 					else
 						Curses.attrset (ColorNormal);
 				}
-				provider.Render (y + l, x, Width, item);
+				provider.Render (Y + l, X, Width, item);
 			}
 			PositionCursor ();
 		}
@@ -1444,8 +1444,8 @@ namespace Mono.Terminal {
 			if ((ev.ButtonState & Curses.Event.Button1Clicked) == 0)
 				return;
 
-			ev.X -= x;
-			ev.Y -= y;
+			ev.X -= X;
+			ev.Y -= Y;
 
 			if (ev.Y < 0)
 				return;
@@ -1519,9 +1519,9 @@ namespace Mono.Terminal {
 		{
 			foreach (Widget w in widgets) {
 				// Poor man's clipping.
-				if (w.x >= this.Width - Border * 2)
+				if (w.X >= this.Width - Border * 2)
 					continue;
-				if (w.y >= this.Height - Border * 2)
+				if (w.Y >= this.Height - Border * 2)
 					continue;
 				
 				w.Redraw ();
@@ -1707,17 +1707,17 @@ namespace Mono.Terminal {
 		public virtual void ContainerMove (int row, int col)
 		{
 			if (Container != Application.EmptyContainer && Container != null)
-				Container.ContainerMove (row + y, col + x);
+				Container.ContainerMove (row + Y, col + X);
 			else
-				Curses.move (row + y, col + x);
+				Curses.move (row + Y, col + X);
 		}
 		
 		public virtual void ContainerBaseMove (int row, int col)
 		{
 			if (Container != Application.EmptyContainer && Container != null)
-				Container.ContainerBaseMove (row + y, col + x);
+				Container.ContainerBaseMove (row + Y, col + X);
 			else
-				Curses.move (row + y, col + x);
+				Curses.move (row + Y, col + X);
 		}
 		
 		/// <summary>
@@ -1807,12 +1807,12 @@ namespace Mono.Terminal {
 			int bx, by;
 
 			GetBase (out bx, out by);
-			ev.X -= x;
-			ev.Y -= y;
+			ev.X -= X;
+			ev.Y -= Y;
 			
 			foreach (Widget w in widgets) {
-				int wx = w.x + bx;
-				int wy = w.y + by;
+				int wx = w.X + bx;
+				int wy = w.Y + by;
 
 				Log ("considering {0}", w);
 				if ((ev.X < wx) || (ev.X > (wx + w.Width)))
@@ -1836,11 +1836,11 @@ namespace Mono.Terminal {
 				widget.DoSizeChanged ();
 
 				if ((widget.Fill & Fill.Horizontal) != 0) {
-					widget.Width = Width - (Border*2) - widget.x;
+					widget.Width = Width - (Border*2) - widget.X;
 				}
 
 				if ((widget.Fill & Fill.Vertical) != 0)
-					widget.Height = Height - (Border * 2) - widget.y;
+					widget.Height = Height - (Border * 2) - widget.Y;
 			}
 		}
 
@@ -1911,9 +1911,9 @@ namespace Mono.Terminal {
 			Curses.attrset (ContainerColorNormal);
 			Clear ();
 			
-			Widget.DrawFrame (x, y, Width, Height);
+			Widget.DrawFrame (X, Y, Width, Height);
 			Curses.attrset (Container.ContainerColorNormal);
-			Curses.move (y, x + 1);
+			Curses.move (Y, X + 1);
 			if (HasFocus)
 				Curses.attrset (Application.ColorDialogNormal);
 			if (Title != null) {
@@ -1990,8 +1990,8 @@ namespace Mono.Terminal {
 			int p = (Width - button_len) / 2;
 			
 			foreach (Button b in buttons) {
-				b.x = p;
-				b.y = Height - 5;
+				b.X = p;
+				b.Y = Height - 5;
 
 				p += b.Width + button_space;
 			}
@@ -2030,8 +2030,8 @@ namespace Mono.Terminal {
 			Curses.attrset (ContainerColorNormal);
 			Clear ();
 
-			Widget.DrawFrame (x + 1, y + 1, Width - 2, Height - 2);
-			Curses.move (y + 1, x + (Width - Title.Length) / 2);
+			Widget.DrawFrame (X + 1, Y + 1, Width - 2, Height - 2);
+			Curses.move (Y + 1, X + (Width - Title.Length) / 2);
 			Curses.addch (' ');
 			Curses.attrset (Application.ColorDialogHotNormal);
 			Curses.addstr (Title);
@@ -2053,8 +2053,8 @@ namespace Mono.Terminal {
 		{
 			base.DoSizeChanged ();
 			
-			x = (Application.Cols - Width) / 2;
-			y = (Application.Lines - Height) / 3;
+			X = (Application.Cols - Width) / 2;
+			Y = (Application.Lines - Height) / 3;
 
 			LayoutButtons ();
 		}
@@ -2161,7 +2161,7 @@ namespace Mono.Terminal {
 					max = m.Width;
 			}
 			max += 4;
-			DrawFrame (col + x, line, max, menu.Children.Length + 2, true);
+			DrawFrame (col + X, line, max, menu.Children.Length + 2, true);
 			for (int i = 0; i < menu.Children.Length; i++) {
 				var item = menu.Children [i];
 
@@ -2180,29 +2180,29 @@ namespace Mono.Terminal {
 
 				// The help string
 				var l = item.Help.Length;
-				Move (line + 1 + i, col + x + max - l - 2);
+				Move (line + 1 + i, col + X + max - l - 2);
 				Curses.addstr (item.Help);
 			}
 		}
 		
 		public override void Redraw ()
 		{
-			Move (y, 0);
+			Move (Y, 0);
 			Curses.attrset (Application.ColorFocus);
 			for (int i = 0; i < Application.Cols; i++)
 				Curses.addch (' ');
 
-			Move (y, 1);
+			Move (Y, 1);
 			int pos = 0;
 			for (int i = 0; i < Menus.Length; i++) {
 				var menu = Menus [i];
 				if (i == selected) {
-					DrawMenu (i, pos, y+1);
+					DrawMenu (i, pos, Y+1);
 					Curses.attrset (Application.ColorMenuSelected);
 				} else
 					Curses.attrset (Application.ColorFocus);
 
-				Move (y, pos);
+				Move (Y, pos);
 				Curses.addch (' ');
 				Curses.addstr (menu.Title);
 				Curses.addch (' ');
@@ -2223,13 +2223,13 @@ namespace Mono.Terminal {
 			for (int i = 0; i < Menus.Length; i++) {
 				if (i == selected) {
 					pos++;
-					Move (y, pos);
+					Move (Y, pos);
 					return;
 				} else {
 					pos += Menus [i].Title.Length + 4;
 				}
 			}
-			Move (y, 0);
+			Move (Y, 0);
 		}
 
 		void Selected (MenuItem item)
