@@ -50,13 +50,13 @@ t-bugosx:
 detect:
 	echo "main () {initscr();}" > tmp.c
 	gcc tmp.c -lncurses -o tmp
-	make binding CURSES=`ldd ./tmp  | grep ncurses | awk '{print $$3}' | sed 's#.*libncurses#ncurses#'`
+	make binding CURSES=`ldd ./tmp | grep ncurses | awk '{print $$3}' | sed 's#.*libncurses#ncurses#'`
 
 binding:
 	sed -e 's/@CURSES@/$(CURSES)/' -e 's/@MONO_CURSES@/$(MONO_CURSES)/' < binding.cs.in > binding.cs
 
 constants.cs: attrib.c
-	gcc -o attrib attrib.c  -lncurses
+	gcc -o attrib attrib.c -lncurses
 	./attrib constants.cs
 
 libmono-curses.so: mono-curses.c
@@ -74,7 +74,7 @@ install: all
 	gacutil -i mono-curses.dll -package mono-curses
 	cp libmono-curses* $(prefix)/lib/
 	cp mono-curses.pc $(prefix)/lib/pkgconfig
-	cp mono-curses.tree mono-curses.zip mono-curses.source  `pkg-config --variable sourcesdir monodoc`
+	cp mono-curses.tree mono-curses.zip mono-curses.source `pkg-config --variable sourcesdir monodoc`
 
 config.make:
 	echo You must run configure first
