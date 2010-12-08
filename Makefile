@@ -33,7 +33,7 @@ mono-curses.pc: mono-curses.pc.in Makefile
 	sed -e 's,@PREFIX@,$(prefix),' -e 's/@VERSION@/$(VERSION)/' < mono-curses.pc.in > mono-curses.pc
 
 mono-curses.dll mono-curses.xml: $(SOURCES)
-	gmcs -doc:mono-curses.xml -debug -target:library -out:mono-curses.dll -debug $(SOURCES)
+	gmcs -doc:mono-curses.xml -debug -r:System.Drawing -target:library -out:mono-curses.dll -debug $(SOURCES)
 
 #
 mono-curses.tree mono-curses.zip: mono-curses.xml mono-curses.dll docs/ns-Mono.Terminal.xml docs/index.xml

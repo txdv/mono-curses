@@ -29,6 +29,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using Mono;
 using System.IO;
 
@@ -59,22 +60,44 @@ namespace Mono.Terminal {
 		/// <summary>
 		///    The x position of this widget
 		/// </summary>
-		public int X { get; set; }
+		public int X { 
+			get { return Location.X; }
+			set { Location = new Point (value, Location.Y); }
+		}
 
 		/// <summary>
 		///    The y position of this widget
 		/// </summary>
-		public int Y { get; set; }
+		public int Y { 
+			get { return Location.Y; }
+			set { Location = new Point (Location.X, value); }
+		}
+		
+		/// <summary>
+		///    The Location of the Widget, struct with (x,y)
+		/// </summary>
+		public Point Location { get; set; }
 
 		/// <summary>
 		///    The width of this widget, it is the area that receives mouse events and that must be repainted.
 		/// </summary>
-		public int Width { get; set; }
+		public int Width { 
+			get { return Size.Width; }
+			set { Size = new Size (value, Height); }
+		}
 
 		/// <summary>
 		///    The height of this widget, it is the area that receives mouse events and that must be repainted.
 		/// </summary>
-		public int Height { get; set; }
+		public int Height { 
+			get { return Size.Height; }
+			set { Size = new Size (Width, value); }
+		}
+		
+		/// <summary>
+		///   The size of the widget, struct containing (w, h)
+		/// </summary>
+		public Size Size { get; set; }
 		
 		bool can_focus;
 		bool has_focus;
