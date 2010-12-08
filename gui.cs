@@ -99,6 +99,36 @@ namespace Mono.Terminal {
 		/// </summary>
 		public Size Size { get; set; }
 		
+		/// <summary>
+		///    Minimum size of the widget.
+		/// </summary>
+		public Size MinimumSize { get { return GetMinimumSize (); } }
+		
+		/// <summary>
+		///    Minimum width of the widget.
+		/// </summary>
+		public int MinimumWidth { get { return MinimumSize.Width; } }
+		
+		/// <summary>
+		///    Minimum height of the widget.
+		/// </summary>
+		public int MinimumHeight { get { return MinimumSize.Height; } }
+		
+		/// <summary>
+		///    The preferred size of this widget.
+		/// </summary>
+		public Size PreferedSize { get { return GetPreferredSize(); } }
+		
+		/// <summary>
+		///    The preferred with of this widget.
+		/// </summary>
+		public int PreferredWidth { get { return PreferedSize.Width; } }
+		
+		/// <summary>
+		///    The preferred height of this widget.
+		/// </summary>
+		public int PreferredHeight { get { return PreferedSize.Height; } }
+		
 		bool can_focus;
 		bool has_focus;
 		public Fill Fill;
@@ -427,6 +457,19 @@ namespace Mono.Terminal {
 		/// </remarks>
 		public virtual void DoSizeChanged ()
 		{
+		}
+		
+		/// <summary>
+		///   Method which returns the preferred size of the widget.
+		/// </summary>
+		public virtual Size GetPreferredSize ()
+		{
+			return new Size (X, Y);
+		}
+		
+		public virtual Size GetMinimumSize ()
+		{
+			return new Size (X, Y);
 		}
 		
 		/// <summary>
