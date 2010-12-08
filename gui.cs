@@ -604,7 +604,7 @@ namespace Mono.Terminal {
 		void SetString (int w, string s)
 		{
 			if ((Fill & Fill.Horizontal) != 0)
-				w = Container.Width - Container.Border * 2 - X;
+				w = Container.Width - Container.BorderSize * 2 - X;
 			
 			this.Width = w;
 			if (s.Length > w) {
@@ -1500,7 +1500,7 @@ namespace Mono.Terminal {
 		public int ContainerColorHotNormal;
 		public int ContainerColorHotFocus;
 
-		public int Border;
+		public int BorderSize { get; set; }
 		
 		static Container ()
 		{
@@ -1542,9 +1542,9 @@ namespace Mono.Terminal {
 		{
 			foreach (Widget w in widgets) {
 				// Poor man's clipping.
-				if (w.X >= this.Width - Border * 2)
+				if (w.X >= this.Width - BorderSize * 2)
 					continue;
-				if (w.Y >= this.Height - Border * 2)
+				if (w.Y >= this.Height - BorderSize * 2)
 					continue;
 				
 				w.Redraw ();
@@ -1859,11 +1859,11 @@ namespace Mono.Terminal {
 				widget.DoSizeChanged ();
 
 				if ((widget.Fill & Fill.Horizontal) != 0) {
-					widget.Width = Width - (Border*2) - widget.X;
+					widget.Width = Width - (BorderSize*2) - widget.X;
 				}
 
 				if ((widget.Fill & Fill.Vertical) != 0)
-					widget.Height = Height - (Border * 2) - widget.Y;
+					widget.Height = Height - (BorderSize * 2) - widget.Y;
 			}
 		}
 
@@ -1915,7 +1915,7 @@ namespace Mono.Terminal {
 		public Frame (int x, int y, int w, int h, string title) : base (x, y, w, h)
 		{
 			Title = title;
-			Border++;
+			BorderSize++;
 		}
 
 		public override void GetBase (out int row, out int col)
@@ -1987,7 +1987,7 @@ namespace Mono.Terminal {
 			ContainerColorHotNormal = Application.ColorDialogHotNormal;
 			ContainerColorHotFocus = Application.ColorDialogHotFocus;
 
-			Border++;
+			BorderSize++;
 		}
 
 		/// <summary>
