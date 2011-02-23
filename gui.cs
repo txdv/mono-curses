@@ -268,6 +268,8 @@ namespace Mono.Terminal {
 				}
 			}
 		}
+		
+		public event Action<int> KeyPressed;
 
 		/// <summary>
 		///   If the widget is focused, gives the widget a
@@ -287,6 +289,9 @@ namespace Mono.Terminal {
 		/// </remarks>
 		public virtual bool ProcessKey (int key)
 		{
+			if (KeyPressed != null)
+				KeyPressed(key);
+			
 			return false;
 		}
 
