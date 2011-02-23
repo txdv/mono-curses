@@ -76,7 +76,6 @@ namespace Mono.Terminal {
 		/// </summary>
 		public int h;
 		
-		bool can_focus;
 		bool has_focus;
 		public Fill Fill;
 		
@@ -145,15 +144,7 @@ namespace Mono.Terminal {
 		////    the tab key.
 		///   </para>
 		/// </remarks>
-		public bool CanFocus {
-			get {
-				return can_focus;
-			}
-
-			set {
-				can_focus = value;
-			}
-		}
+		public bool CanFocus { get; set; }
 
 		/// <summary>
 		///   Gets or sets the current focus status.
