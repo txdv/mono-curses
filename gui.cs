@@ -2814,7 +2814,7 @@ namespace Mono.Terminal {
 		{
 			int ch = Curses.getch ();
 
-			if (ch == -1){
+			if ((ch == -1) | (ch == Curses.KeyResize)){
 				if (Curses.CheckWinChange ()){
 					EmptyContainer.Clear ();
 					foreach (Container c in toplevels)
